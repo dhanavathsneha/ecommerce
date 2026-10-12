@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CompileCart ⚡ E-Commerce Rule Compiler & Smart Marketplace</title>
+  <meta name="description" content="CompileCart is a modern multi-category e-commerce platform powered by a real custom rule compiler for intelligent business and promotional discounts.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+  <!-- ========================================== -->
+  <!-- AUTH GATE: LOGIN / REGISTER SCREEN         -->
+  <!-- ========================================== -->
+  <div id="authGate" class="auth-gate">
+    <div class="auth-bg-effects">
+      <div class="auth-orb auth-orb-1"></div>
+      <div class="auth-orb auth-orb-2"></div>
+      <div class="auth-orb auth-orb-3"></div>
+    </div>
+    <div class="auth-container">
+      <!-- Brand Header -->
+      <div class="auth-brand">
+        <div class="auth-brand-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+            <line x1="12" y1="2" x2="12" y2="22" stroke-dasharray="2 3"></line>
+          </svg>
+        </div>
+        <h1 class="auth-brand-title">Compile<span class="gradient-text">Cart</span></h1>
+        <p class="auth-brand-subtitle">Smart E-Commerce powered by a DSL Rule Compiler Engine</p>
+      </div>
+
+      <!-- Role Selector Tabs -->
+      <div class="auth-role-tabs">
+        <button class="auth-role-tab active" data-role="customer" onclick="switchAuthRole('customer')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <span>Customer</span>
+        </button>
+        <button class="auth-role-tab" data-role="admin" onclick="switchAuthRole('admin')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          <span>Admin</span>
+        </button>
+      </div>
+
+      <!-- Auth Card -->
+      <div class="auth-card" id="authCard">
+        <!-- Login Form -->
+        <div id="authLoginForm" class="auth-form-section active">
+          <h2 class="auth-heading"><span id="loginHeadingRole">Customer</span> Login</h2>
+          <p class="auth-subtext">Sign in to access your <span id="loginDescRole">shopping dashboard</span></p>
+          <form id="loginForm" onsubmit="handleLogin(event)">
+            <div class="auth-field">
+              <label for="loginEmail">Email Address</label>
+              <div class="auth-input-wrap">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                <input type="email" id="loginEmail" required placeholder="you@example.com" autocomplete="email">
+              </div>
+            </div>
+            <div class="auth-field">
+              <label for="loginPassword">Password</label>
+              <div class="auth-input-wrap">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                <input type="password" id="loginPassword" required placeholder="Enter your password" minlength="6" autocomplete="current-password">
+                <button type="button" class="toggle-pw-btn" onclick="togglePasswordVisibility('loginPassword', this)">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </button>
+              </div>
+            </div>
+            <div id="loginError" class="auth-error" style="display:none;"></div>
+            <button type="submit" class="btn btn-primary btn-block auth-submit-btn">
+              <span>Sign In</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+          </form>
+          <div class="auth-switch">
+            <span>Don't have an account?</span>
+            <button type="button" class="auth-switch-btn" onclick="switchAuthForm('register')">Create Account</button>
+          </div>
+        </div>
+
+        <!-- Register Form -->
+        <div id="authRegisterForm" class="auth-form-section">
+          <h2 class="auth-heading"><span id="registerHeadingRole">Customer</span> Registration</h2>
+          <p class="auth-subtext">Create your <span id="registerDescRole">shopping</span> account to get started</p>
+          <form id="registerForm" onsubmit="handleRegister(event)">
+            <div class="auth-field">
+              <label for="regFullName">Full Name</label>
+              <div class="auth-input-wrap">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <input type="text" id="regFullName" required placeholder="Sneha Dhanavath" autocomplete="name">
+              </div>
+            </div>
+            <div class="auth-field">
+              <label for="regEmail">Email Address</label>
+              <div class="auth-input-wrap">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                <input type="email" id="regEmail" required placeholder="you@example.com" autocomplete="email">
+              </div>
+            </div>
+            <div class="auth-field">
+              <label for="regPassword">Password</label>
+              <div class="auth-input-wrap">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                <input type="password" id="regPassword" required placeholder="Min. 6 characters" minlength="6" autocomplete="new-password">
+                <button type="button" class="toggle-pw-btn" onclick="togglePasswordVisibility('regPassword', this)">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </button>
+              </div>
+            </div>
+            <div class="auth-field">
+              <label for="regConfirmPassword">Confirm Password</label>
+              <div class="auth-input-wrap">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                <input type="password" id="regConfirmPassword" required placeholder="Re-enter your password" minlength="6" autocomplete="new-password">
+              </div>
+            </div>
+            <div id="registerError" class="auth-error" style="display:none;"></div>
+            <button type="submit" class="btn btn-primary btn-block auth-submit-btn">
+              <span>Create Account</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+          </form>
+          <div class="auth-switch">
+            <span>Already have an account?</span>
+            <button type="button" class="auth-switch-btn" onclick="switchAuthForm('login')">Sign In</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Auth Footer -->
+      <div class="auth-footer">
+        <p>CompileCart &copy; 2026 &bull; Compiler Design Integrated E-Commerce</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- Announcement Bar: Active Compiler Rule Banner -->
+  <div class="announcement-bar" id="announcementBar">
+    <div class="announcement-content">
+      <span class="pulse-dot"></span>
+      <span class="announcement-text" id="announcementText">⚡ <strong>Rule Engine Active:</strong> Evaluating live DSL promotion rules against your cart in real-time.</span>
+      <button class="announcement-cta" onclick="navigateTo('compiler')">Inspect in Compiler Studio →</button>
+    </div>
+  </div>
+
+  <!-- Main Navigation Header -->
+  <header class="app-header">
+    <div class="header-inner container">
+      <!-- Brand Logo -->
+      <div class="brand" onclick="navigateTo('store')">
+        <div class="brand-logo-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+            <line x1="12" y1="2" x2="12" y2="22" stroke-dasharray="2 3"></line>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">Compile<span class="gradient-text">Cart</span></span>
+          <span class="brand-badge">DSL Engine v2.0</span>
+        </div>
+      </div>
+
+      <!-- Live Search Bar -->
+      <div class="search-container">
+        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="globalSearchInput" placeholder="Search fashion, electronics, gadgets, home decor..." autocomplete="off">
+        <button id="clearSearchBtn" class="clear-search-btn" title="Clear search" style="display: none;">&times;</button>
+        <div id="searchSuggestions" class="search-suggestions" style="display: none;"></div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="nav-links">
+        <button class="nav-btn active" data-view="store" onclick="navigateTo('store')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+          <span>Store</span>
+        </button>
+        <button class="nav-btn" data-view="wishlist" onclick="navigateTo('wishlist')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+          <span>Wishlist</span>
+          <span class="badge" id="wishlistCountBadge">0</span>
+        </button>
+        <button class="nav-btn" data-view="cart" onclick="toggleCartDrawer()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+          <span>Bag</span>
+          <span class="badge badge-accent" id="cartCountBadge">0</span>
+        </button>
+        <button class="nav-btn" data-view="customer" onclick="navigateTo('customer')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <span>Customer</span>
+        </button>
+        <button class="nav-btn" data-view="admin" onclick="navigateTo('admin')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          <span>Admin</span>
+        </button>
+        <button class="nav-btn nav-btn-studio" data-view="compiler" onclick="navigateTo('compiler')">
+          <span class="studio-glow"></span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          <span>Compiler Studio</span>
+          <span class="pill-tag">DSL</span>
+        </button>
+      </nav>
+
+      <!-- Logged-in User Profile & Logout -->
+      <div class="user-profile-control" id="userProfileControl">
+        <div class="user-avatar-mini" id="userAvatarMini">SD</div>
+        <div class="user-profile-info">
+          <span class="user-profile-name" id="userProfileName">Sneha</span>
+          <span class="user-profile-role" id="userProfileRole">Customer</span>
+        </div>
+        <button class="btn btn-sm btn-outline logout-btn" onclick="handleLogout()" title="Logout">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Application Body -->
+  <main id="mainApp" class="main-content">
+    
+    <!-- ========================================== -->
+    <!-- VIEW 1: STORE / PRODUCT CATALOGUE         -->
+    <!-- ========================================== -->
+    <section id="viewStore" class="app-view active">
+      <!-- Hero Banner -->
+      <div class="store-hero container">
+        <div class="hero-glass-card">
+          <div class="hero-left">
+            <span class="hero-chip">✨ Next-Gen E-Commerce meets Compiler Design</span>
+            <h1 class="hero-title">Custom-Compiled Discounts.<br><span class="gradient-text">Zero Hardcoding.</span></h1>
+            <p class="hero-desc">Experience an intelligent e-commerce catalogue where promotion rules are parsed, validated, and optimized through a real compiler pipeline before executing on your shopping cart.</p>
+            <div class="hero-actions">
+              <button class="btn btn-primary" onclick="scrollToProducts()">
+                <span>Shop Catalogue</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+              </button>
+              <button class="btn btn-secondary" onclick="navigateTo('compiler')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                <span>Open Compiler Studio</span>
+              </button>
+            </div>
+          </div>
+          <div class="hero-right">
+            <div class="hero-compiler-preview">
+              <div class="terminal-header">
+                <span class="dot dot-red"></span>
+                <span class="dot dot-yellow"></span>
+                <span class="dot dot-green"></span>
+                <span class="terminal-title">Active Compiled Rule in Cart Engine</span>
+              </div>
+              <pre class="terminal-code"><span class="syn-kw">RULE</span> <span class="syn-id">FashionOffer</span> {
+    <span class="syn-kw">IF</span> category == <span class="syn-str">"Fashion"</span> 
+       <span class="syn-op">AND</span> cart_total &gt; <span class="syn-num">3000</span>
+    <span class="syn-kw">THEN</span> discount = <span class="syn-num">15</span>
+}</pre>
+              <div class="terminal-status">
+                <span class="status-badge success">✓ Parsed (AST)</span>
+                <span class="status-badge success">✓ Semantic OK</span>
+                <span class="status-badge info">⚡ IR Executing</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categories Navigation Pills -->
+      <div class="categories-bar container">
+        <div class="category-pills" id="categoryPills">
+          <button class="cat-pill active" data-category="all" onclick="filterByCategory('all')">
+            <span class="pill-icon">🌟</span> All Categories
+          </button>
+          <button class="cat-pill" data-category="Fashion" onclick="filterByCategory('Fashion')">
+            <span class="pill-icon">👗</span> Fashion
+          </button>
+          <button class="cat-pill" data-category="Electronics" onclick="filterByCategory('Electronics')">
+            <span class="pill-icon">🎧</span> Electronics
+          </button>
+          <button class="cat-pill" data-category="Beauty" onclick="filterByCategory('Beauty')">
+            <span class="pill-icon">💄</span> Beauty
+          </button>
+          <button class="cat-pill" data-category="Home" onclick="filterByCategory('Home')">
+            <span class="pill-icon">🛋️</span> Home & Living
+          </button>
+          <button class="cat-pill" data-category="Footwear" onclick="filterByCategory('Footwear')">
+            <span class="pill-icon">👟</span> Footwear
+          </button>
+          <button class="cat-pill" data-category="Accessories" onclick="filterByCategory('Accessories')">
+            <span class="pill-icon">⌚</span> Accessories
+          </button>
+        </div>
+      </div>
+
+      <!-- Catalogue Filter & Product Grid Layout -->
+      <div class="catalogue-section container" id="productsCatalogue">
+        <!-- Sidebar Controls -->
+        <aside class="catalogue-sidebar">
+          <div class="sidebar-block">
+            <div class="sidebar-header">
+              <h3>Filters</h3>
+              <button class="reset-filter-btn" onclick="resetFilters()">Reset All</button>
+            </div>
+            
+            <!-- Price Range Filter -->
+            <div class="filter-group">
+              <label for="priceRange">Max Price: <strong id="priceDisplay">₹60,000</strong></label>
+              <input type="range" id="priceRange" min="200" max="60000" step="500" value="60000" oninput="handlePriceFilter(this.value)">
+              <div class="range-limits">
+                <span>₹200</span>
+                <span>₹60,000</span>
+              </div>
+            </div>
+
+            <!-- In-Stock Only -->
+            <div class="filter-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="inStockCheckbox" onchange="handleStockFilter(this.checked)">
+                <span>In Stock Only</span>
+              </label>
+            </div>
+
+            <!-- Customer Rating Filter -->
+            <div class="filter-group">
+              <label class="filter-title">Minimum Rating</label>
+              <div class="rating-pills">
+                <button class="rating-btn active" data-rating="0" onclick="handleRatingFilter(0)">All</button>
+                <button class="rating-btn" data-rating="4" onclick="handleRatingFilter(4)">4★+</button>
+                <button class="rating-btn" data-rating="4.5" onclick="handleRatingFilter(4.5)">4.5★+</button>
+              </div>
+            </div>
+
+            <!-- Active Rule Quick Tester Notice -->
+            <div class="sidebar-rule-card">
+              <h4>⚡ Active Promotion Rules</h4>
+              <p>Active promotions compile straight into bytecode instructions that calculate discounts automatically during checkout.</p>
+              <div id="sidebarActiveRulesSummary" class="active-rules-list"></div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Main Product Grid & Sorting Area -->
+        <div class="catalogue-main">
+          <!-- Top Sorting & Count Toolbar -->
+          <div class="catalogue-toolbar">
+            <div class="products-count">
+              Showing <span id="displayedCount">0</span> of <span id="totalProductsCount">0</span> items
+            </div>
+            <div class="sort-controls">
+              <label for="sortSelector">Sort By:</label>
+              <select id="sortSelector" onchange="handleSortChange(this.value)">
+                <option value="popular">Most Popular</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="rating">Top Rated</option>
+                <option value="newest">Newest Arrivals</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Product Card Grid -->
+          <div class="products-grid" id="productsGrid">
+            <!-- Rendered dynamically by script.js -->
+          </div>
+
+          <!-- Empty State -->
+          <div id="noProductsFound" class="empty-state-card" style="display: none;">
+            <div class="empty-icon">🔍</div>
+            <h3>No products match your criteria</h3>
+            <p>Try clearing filters or search terms to browse the full catalogue.</p>
+            <button class="btn btn-secondary" onclick="resetFilters()">Reset All Filters</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 2: WISHLIST VIEW                      -->
+    <!-- ========================================== -->
+    <section id="viewWishlist" class="app-view">
+      <div class="container view-header">
+        <div>
+          <h2 class="view-title">My Wishlist</h2>
+          <p class="view-subtitle">Items you've saved to inspect, purchase later, or test with promotion rules.</p>
+        </div>
+        <button class="btn btn-outline" onclick="navigateTo('store')">← Continue Shopping</button>
+      </div>
+
+      <div class="container">
+        <div class="wishlist-grid" id="wishlistGrid">
+          <!-- Rendered dynamically -->
+        </div>
+        <div id="emptyWishlistState" class="empty-state-card" style="display: none;">
+          <div class="empty-icon">💖</div>
+          <h3>Your wishlist is empty</h3>
+          <p>Explore our fashion, electronics, and home decor items and click the heart icon to save products here.</p>
+          <button class="btn btn-primary" onclick="navigateTo('store')">Explore Catalogue</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 3: CUSTOMER DASHBOARD                -->
+    <!-- ========================================== -->
+    <section id="viewCustomer" class="app-view">
+      <div class="container">
+        <!-- Customer Banner -->
+        <div class="customer-banner">
+          <div class="customer-avatar">
+            <span>SD</span>
+          </div>
+          <div class="customer-info">
+            <h2>Welcome back, <span class="gradient-text">Sneha Dhanavath</span></h2>
+            <p>Customer Profile • Member tier: <strong class="tier-tag">VIP Shopper</strong> • Simulated Balance: Active</p>
+          </div>
+        </div>
+
+        <!-- Metric KPI Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon icon-purple">🛍️</div>
+            <div class="stat-meta">
+              <span class="stat-label">Total Orders</span>
+              <span class="stat-value" id="custTotalOrders">0</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-green">₹</div>
+            <div class="stat-meta">
+              <span class="stat-label">Total Spend</span>
+              <span class="stat-value" id="custTotalSpend">₹0</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-amber">⚡</div>
+            <div class="stat-meta">
+              <span class="stat-label">Compiler Savings</span>
+              <span class="stat-value" id="custTotalSavings">₹0</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-cyan">💖</div>
+            <div class="stat-meta">
+              <span class="stat-label">Saved in Wishlist</span>
+              <span class="stat-value" id="custWishlistCount">0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Orders Section -->
+        <div class="dashboard-block">
+          <div class="dashboard-block-header">
+            <h3>Recent Orders & Rule Execution Records</h3>
+            <span class="sub-hint">Discounts applied via compiled bytecode instructions</span>
+          </div>
+          <div class="orders-list-table-container">
+            <table class="data-table" id="customerOrdersTable">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Date & Time</th>
+                  <th>Items Purchased</th>
+                  <th>Subtotal</th>
+                  <th>Rule Discount</th>
+                  <th>Total Paid</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="customerOrdersTbody">
+                <!-- Injected dynamically -->
+              </tbody>
+            </table>
+            <div id="noCustomerOrders" class="empty-state-card" style="display: none;">
+              <div class="empty-icon">📦</div>
+              <h3>No orders placed yet</h3>
+              <p>Add products to your cart and complete checkout to test order storage and rule execution!</p>
+              <button class="btn btn-primary" onclick="navigateTo('store')">Start Shopping</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 4: ADMIN DASHBOARD                   -->
+    <!-- ========================================== -->
+    <section id="viewAdmin" class="app-view">
+      <div class="container">
+        <!-- Admin Notice if in Customer Mode -->
+        <div id="adminAccessDeniedBanner" class="alert-banner warning" style="display: none;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+          <div>
+            <strong>Customer Role Active:</strong> You are viewing Admin in restricted preview mode. Switch role to <strong>Administrator</strong> in the top header to modify stock, add products, or toggle promotion rules.
+          </div>
+        </div>
+
+        <div class="view-header">
+          <div>
+            <h2 class="view-title">Store Administration & Rule Control</h2>
+            <p class="view-subtitle">Manage multi-category inventory, customer orders, and activate or deactivate compiled promotion rules.</p>
+          </div>
+          <div class="admin-actions-bar">
+            <button class="btn btn-primary" id="openAddProductBtn" onclick="openProductModal()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="18" y1="12" x2="6" y2="12"></line></svg>
+              <span>Add New Product</span>
+            </button>
+            <button class="btn btn-accent" onclick="navigateTo('compiler')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+              <span>New Rule in Compiler Studio</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Admin Overview Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon icon-purple">💵</div>
+            <div class="stat-meta">
+              <span class="stat-label">Store Revenue</span>
+              <span class="stat-value" id="adminRevenue">₹0</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-cyan">📦</div>
+            <div class="stat-meta">
+              <span class="stat-label">Total Store Orders</span>
+              <span class="stat-value" id="adminTotalOrders">0</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-green">🏷️</div>
+            <div class="stat-meta">
+              <span class="stat-label">Catalogue Products</span>
+              <span class="stat-value" id="adminTotalProducts">0</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-amber">⚡</div>
+            <div class="stat-meta">
+              <span class="stat-label">Active Promotion Rules</span>
+              <span class="stat-value" id="adminActiveRulesCount">0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Admin Navigation Tabs -->
+        <div class="admin-tabs">
+          <button class="admin-tab-btn active" data-tab="adminInventory" onclick="switchAdminTab('adminInventory')">
+            📦 Product & Inventory Management
+          </button>
+          <button class="admin-tab-btn" data-tab="adminOrders" onclick="switchAdminTab('adminOrders')">
+            📑 Customer Orders & Status
+          </button>
+          <button class="admin-tab-btn" data-tab="adminRules" onclick="switchAdminTab('adminRules')">
+            ⚡ Compiled Promotion Rules
+          </button>
+        </div>
+
+        <!-- TAB 1: Inventory Management -->
+        <div id="tabAdminInventory" class="admin-tab-pane active">
+          <div class="table-toolbar">
+            <input type="text" id="adminProductSearch" placeholder="Filter inventory by name or category..." oninput="handleAdminProductFilter(this.value)">
+            <select id="adminCategoryFilter" onchange="handleAdminCategoryFilter(this.value)">
+              <option value="all">All Categories</option>
+              <option value="Fashion">Fashion</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Beauty">Beauty</option>
+              <option value="Home">Home & Living</option>
+              <option value="Footwear">Footwear</option>
+              <option value="Accessories">Accessories</option>
+            </select>
+            <button class="btn btn-sm btn-outline" onclick="restoreFullCatalogue()" title="Restore or merge all 30 extended products">↻ Reload 30 Items</button>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Stock Inventory</th>
+                  <th>Rating</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminProductsTbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 2: Orders Management -->
+        <div id="tabAdminOrders" class="admin-tab-pane">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Items</th>
+                  <th>Subtotal</th>
+                  <th>Applied Rule</th>
+                  <th>Final Total</th>
+                  <th>Current Status</th>
+                  <th>Update Status</th>
+                </tr>
+              </thead>
+              <tbody id="adminOrdersTbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+          <div id="noAdminOrders" class="empty-state-card" style="display: none;">
+            <p>No customer orders in store yet.</p>
+          </div>
+        </div>
+
+        <!-- TAB 3: Compiled Promotion Rules Management -->
+        <div id="tabAdminRules" class="admin-tab-pane">
+          <div class="rules-management-header">
+            <div>
+              <h3>Active & Stored Promotion Rules</h3>
+              <p>Rules created and compiled through the Compiler Studio. Toggle to activate/deactivate live execution against shopping carts.</p>
+            </div>
+            <button class="btn btn-primary" onclick="navigateTo('compiler')">+ Compile New Rule</button>
+          </div>
+          <div class="rules-cards-grid" id="adminRulesGrid">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 5: COMPILER STUDIO (CORE ACADEMIC)    -->
+    <!-- ========================================== -->
+    <section id="viewCompiler" class="app-view">
+      <div class="container compiler-studio-container">
+        <!-- Studio Header -->
+        <div class="studio-top-bar">
+          <div class="studio-title-group">
+            <div class="studio-logo-glow">⚡</div>
+            <div>
+              <h2 class="studio-title">Compiler Studio <span class="tag-academic">Compiler Design Coursework</span></h2>
+              <p class="studio-subtitle">Lexer → Recursive Descent Parser → AST → Semantic Analyzer → Intermediate Code (IR) → Optimizer → Virtual Machine</p>
+            </div>
+          </div>
+          <div class="studio-top-actions">
+            <button class="btn btn-sm btn-outline" onclick="openGrammarDocsModal()">
+              📖 EBNF Grammar Reference
+            </button>
+            <button class="btn btn-sm btn-accent" onclick="runAllSRSAutomatedTests()">
+              🧪 Run 12 SRS Test Cases
+            </button>
+          </div>
+        </div>
+
+        <!-- Pipeline Progress Tracker Bar -->
+        <div class="pipeline-flow-tracker">
+          <div class="flow-step" id="stepIndicatorLexer">
+            <span class="step-num">1</span>
+            <span class="step-text">Lexer</span>
+          </div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-step" id="stepIndicatorParser">
+            <span class="step-num">2</span>
+            <span class="step-text">Parser & AST</span>
+          </div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-step" id="stepIndicatorSemantic">
+            <span class="step-num">3</span>
+            <span class="step-text">Semantic Analysis</span>
+          </div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-step" id="stepIndicatorIR">
+            <span class="step-num">4</span>
+            <span class="step-text">Intermediate Code (IR)</span>
+          </div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-step" id="stepIndicatorOpt">
+            <span class="step-num">5</span>
+            <span class="step-text">Optimization</span>
+          </div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-step" id="stepIndicatorVM">
+            <span class="step-num">6</span>
+            <span class="step-text">VM Execution</span>
+          </div>
+        </div>
+
+        <!-- Main Studio Split Layout -->
+        <div class="studio-workspace">
+          <!-- Left Column: Rule Editor & Controls -->
+          <div class="studio-editor-panel">
+            <div class="editor-header">
+              <div class="editor-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                <span>DSL Rule Editor</span>
+              </div>
+              <!-- Presets Dropdown -->
+              <div class="presets-wrapper">
+                <label for="rulePresetSelect" class="sr-only">Choose Rule Preset</label>
+                <select id="rulePresetSelect" onchange="loadRulePreset(this.value)">
+                  <option value="fashion_offer">Preset: Fashion Offer (category & cart_total)</option>
+                  <option value="electronics_fest">Preset: Electronics Deal (Electronics & cart_total &gt; 15000)</option>
+                  <option value="vip_special">Preset: VIP Customer (customer_type == "VIP")</option>
+                  <option value="bulk_home">Preset: Bulk Home Decor (item_count &gt;= 3 & Home)</option>
+                  <option value="compound_or">Preset: Compound OR Condition (item_count &gt; 5 OR cart_total &gt; 10000)</option>
+                  <option value="syntax_error_demo">Demo: Syntax Error (Missing THEN keyword)</option>
+                  <option value="semantic_error_demo">Demo: Semantic Error (Discount = 120% invalid)</option>
+                  <option value="unknown_var_demo">Demo: Unknown Variable Error</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Code Input Area with line numbers -->
+            <div class="editor-body">
+              <div class="line-numbers" id="editorLineNumbers">1<br>2<br>3<br>4<br>5</div>
+              <textarea id="ruleSourceCode" spellcheck="false" placeholder="Write your promotion rule here..." oninput="updateLineNumbers()"></textarea>
+            </div>
+
+            <!-- Rule Metadata Inputs -->
+            <div class="rule-meta-bar">
+              <div class="meta-field">
+                <label for="ruleNameInput">Rule Identifier Name:</label>
+                <input type="text" id="ruleNameInput" placeholder="FashionOffer" value="FashionOffer">
+              </div>
+              <div class="meta-field">
+                <label for="rulePriorityInput">Priority (Higher wins):</label>
+                <input type="number" id="rulePriorityInput" min="1" max="100" value="10">
+              </div>
+            </div>
+
+            <!-- Action Buttons Toolbar -->
+            <div class="editor-actions">
+              <button class="btn btn-primary" id="compileRuleBtn" onclick="runFullCompilationPipeline()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                <span>Compile Rule</span>
+              </button>
+              <button class="btn btn-secondary" id="optimizeRuleBtn" onclick="optimizeCompiledRule()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                <span>Optimize IR</span>
+              </button>
+              <button class="btn btn-accent" id="publishRuleBtn" onclick="publishRuleToStore()" disabled>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                <span>Publish to Store</span>
+              </button>
+              <button class="btn btn-outline" onclick="resetEditor()">Reset</button>
+            </div>
+
+            <!-- Compilation Status Alert Banner -->
+            <div id="compilerStatusBanner" class="compiler-status-banner info">
+              <span class="status-icon">ℹ️</span>
+              <div class="status-msg-wrap">
+                <strong id="compilerStatusTitle">Ready to Compile</strong>
+                <p id="compilerStatusDesc">Click 'Compile Rule' to begin Lexical Analysis and verify against our documented grammar.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Multi-Stage Inspector Tabs -->
+          <div class="studio-inspector-panel">
+            <!-- Stage Tabs Nav -->
+            <div class="stage-tabs-nav">
+              <button class="stage-tab active" data-stage="tokens" onclick="switchStageTab('tokens')">
+                1. Tokens <span class="tab-badge" id="tokensBadge">0</span>
+              </button>
+              <button class="stage-tab" data-stage="ast" onclick="switchStageTab('ast')">
+                2. AST Tree
+              </button>
+              <button class="stage-tab" data-stage="semantic" onclick="switchStageTab('semantic')">
+                3. Semantic Check
+              </button>
+              <button class="stage-tab" data-stage="ir" onclick="switchStageTab('ir')">
+                4. Intermediate IR
+              </button>
+              <button class="stage-tab" data-stage="optimizer" onclick="switchStageTab('optimizer')">
+                5. Optimizer
+              </button>
+              <button class="stage-tab" data-stage="execution" onclick="switchStageTab('execution')">
+                6. VM Execution
+              </button>
+              <button class="stage-tab" data-stage="tests" onclick="switchStageTab('tests')">
+                🧪 Test Suite (12)
+              </button>
+            </div>
+
+            <!-- Stage 1: Tokens Tab -->
+            <div id="stageTabTokens" class="stage-tab-content active">
+              <div class="stage-content-header">
+                <h4>Lexical Analysis (Token Stream)</h4>
+                <span class="sub-hint">Characters classified into Keywords, Identifiers, Operators, Delimiters & Literals</span>
+              </div>
+              <div class="tokens-table-container">
+                <table class="data-table tokens-table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Token Type</th>
+                      <th>Value / Lexeme</th>
+                      <th>Position</th>
+                      <th>Category</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tokensTableBody">
+                    <tr><td colspan="5" class="table-empty">Compile a rule to view the token stream.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Stage 2: AST Tree Tab -->
+            <div id="stageTabAst" class="stage-tab-content">
+              <div class="stage-content-header">
+                <h4>Abstract Syntax Tree (AST)</h4>
+                <div class="ast-view-toggle">
+                  <button class="btn btn-xs btn-outline active" id="btnAstVisual" onclick="toggleAstDisplay('visual')">Visual Tree</button>
+                  <button class="btn btn-xs btn-outline" id="btnAstJson" onclick="toggleAstDisplay('json')">JSON View</button>
+                </div>
+              </div>
+              <div class="ast-visual-container" id="astVisualContainer">
+                <div class="ast-placeholder">Parse a rule to view its interactive syntax hierarchy.</div>
+              </div>
+              <pre class="ast-json-container" id="astJsonContainer" style="display: none;"></pre>
+            </div>
+
+            <!-- Stage 3: Semantic Analysis Tab -->
+            <div id="stageTabSemantic" class="stage-tab-content">
+              <div class="stage-content-header">
+                <h4>Semantic Validation & Symbol Checking</h4>
+                <span class="sub-hint">Verifies variable scope, type compatibility, and discount value boundaries</span>
+              </div>
+              <div class="semantic-report-card" id="semanticReportCard">
+                <p class="placeholder-text">Run compilation to execute semantic verification.</p>
+              </div>
+              <div class="env-table-wrap">
+                <h5>Supported Symbol Environment Schema</h5>
+                <table class="data-table mini-table">
+                  <thead>
+                    <tr><th>Symbol Name</th><th>Expected Type</th><th>Sample Value</th><th>Domain</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>category</code></td><td>String</td><td>"Fashion", "Electronics"</td><td>Catalogue Category</td></tr>
+                    <tr><td><code>cart_total</code></td><td>Number</td><td>3500 (in ₹)</td><td>Cart subtotal before discounts</td></tr>
+                    <tr><td><code>item_count</code></td><td>Number</td><td>4</td><td>Total quantity of items in bag</td></tr>
+                    <tr><td><code>customer_type</code></td><td>String</td><td>"VIP", "Regular"</td><td>Customer Membership Tier</td></tr>
+                    <tr><td><code>discount</code></td><td>Number (1-100)</td><td>15</td><td>Assignment target (% off)</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Stage 4: Intermediate Code Generation (IR) Tab -->
+            <div id="stageTabIr" class="stage-tab-content">
+              <div class="stage-content-header">
+                <h4>Generated Intermediate Representation (IR Bytecode)</h4>
+                <span class="sub-hint">Derived from AST into stack-based 3-address instructions</span>
+              </div>
+              <div class="ir-viewer-container">
+                <table class="data-table ir-table">
+                  <thead>
+                    <tr><th>Address</th><th>Opcode</th><th>Operand</th><th>Operation Description</th></tr>
+                  </thead>
+                  <tbody id="irTableBody">
+                    <tr><td colspan="4" class="table-empty">Compile a rule to generate intermediate instructions.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Stage 5: Code Optimization Tab -->
+            <div id="stageTabOptimizer" class="stage-tab-content">
+              <div class="stage-content-header">
+                <h4>Safe Code Optimization Comparison</h4>
+                <span class="sub-hint">Constant folding, redundant branch elimination, and instruction compaction</span>
+              </div>
+              <div class="optimizer-metrics-bar" id="optimizerMetricsBar">
+                <div class="opt-metric">
+                  <span class="opt-label">Unoptimized Instructions:</span>
+                  <strong id="optCountBefore">0</strong>
+                </div>
+                <div class="opt-metric">
+                  <span class="opt-label">Optimized Instructions:</span>
+                  <strong id="optCountAfter">0</strong>
+                </div>
+                <div class="opt-metric">
+                  <span class="opt-label">Reduction Efficiency:</span>
+                  <strong id="optReductionPct" class="gradient-text">0%</strong>
+                </div>
+              </div>
+              <div class="ir-compare-grid">
+                <div class="compare-col">
+                  <h5>Raw Generated IR</h5>
+                  <pre id="rawIrListing" class="code-listing">No code generated yet.</pre>
+                </div>
+                <div class="compare-col">
+                  <h5>Optimized IR</h5>
+                  <pre id="optimizedIrListing" class="code-listing">Click 'Optimize IR' to simplify safe operations.</pre>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stage 6: Virtual Machine & Test Sandbox Tab -->
+            <div id="stageTabExecution" class="stage-tab-content">
+              <div class="stage-content-header">
+                <h4>Virtual Machine Sandbox & Live Cart Tester</h4>
+                <span class="sub-hint">Executes bytecode instructions safely on stack without eval()</span>
+              </div>
+              
+              <!-- Mock Context Sandbox Form -->
+              <div class="sandbox-controls-box">
+                <div class="sandbox-header">
+                  <strong>Simulated Shopping Cart Context:</strong>
+                  <button class="btn btn-xs btn-outline" onclick="syncSandboxWithLiveCart()">Sync with Live Bag</button>
+                </div>
+                <div class="sandbox-fields">
+                  <div class="sandbox-field">
+                    <label for="sbCategory">category:</label>
+                    <select id="sbCategory">
+                      <option value="Fashion">"Fashion"</option>
+                      <option value="Electronics">"Electronics"</option>
+                      <option value="Beauty">"Beauty"</option>
+                      <option value="Home">"Home"</option>
+                      <option value="Footwear">"Footwear"</option>
+                      <option value="Accessories">"Accessories"</option>
+                    </select>
+                  </div>
+                  <div class="sandbox-field">
+                    <label for="sbCartTotal">cart_total (₹):</label>
+                    <input type="number" id="sbCartTotal" value="3500" step="100">
+                  </div>
+                  <div class="sandbox-field">
+                    <label for="sbItemCount">item_count:</label>
+                    <input type="number" id="sbItemCount" value="2" min="1">
+                  </div>
+                  <div class="sandbox-field">
+                    <label for="sbCustomerType">customer_type:</label>
+                    <select id="sbCustomerType">
+                      <option value="Regular">"Regular"</option>
+                      <option value="VIP">"VIP"</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="sandbox-actions">
+                  <button class="btn btn-sm btn-primary" onclick="executeVmSimulation()">
+                    ⚡ Run VM Execution
+                  </button>
+                  <button class="btn btn-sm btn-secondary" onclick="stepVmSimulation()">
+                    🐾 Step By Step (Debug)
+                  </button>
+                  <button class="btn btn-sm btn-outline" onclick="resetVmSimulation()">
+                    🔄 Reset VM
+                  </button>
+                </div>
+              </div>
+
+              <!-- VM Runtime State & Stack Visualizer -->
+              <div class="vm-status-grid">
+                <div class="vm-stack-visualizer">
+                  <h5>Evaluation Stack:</h5>
+                  <div class="stack-box" id="vmStackDisplay">
+                    <span class="stack-empty">[ Stack Empty ]</span>
+                  </div>
+                </div>
+                <div class="vm-result-display">
+                  <h5>Execution Outcome:</h5>
+                  <div id="vmOutcomeCard" class="outcome-card pending">
+                    Run VM execution to evaluate conditions against mock or live cart context.
+                  </div>
+                </div>
+              </div>
+
+              <!-- VM Execution Step Log -->
+              <div class="vm-trace-log-wrap">
+                <h5>VM Instruction Trace:</h5>
+                <pre id="vmTraceLog" class="trace-log">Awaiting execution...</pre>
+              </div>
+            </div>
+
+            <!-- Stage 7: Automated Test Suite Tab (TC-01 to TC-12) -->
+            <div id="stageTabTests" class="stage-tab-content">
+              <div class="stage-content-header">
+                <h4>SRS Automated Test Suite Verification (TC-01 through TC-12)</h4>
+                <button class="btn btn-sm btn-primary" onclick="runAllSRSAutomatedTests()">
+                  ▶️ Execute All Tests Now
+                </button>
+              </div>
+              <div class="test-suite-table-wrap">
+                <table class="data-table test-results-table">
+                  <thead>
+                    <tr><th>Test ID</th><th>Scenario Requirement</th><th>Expected Behavior</th><th>Actual Result</th><th>Status</th></tr>
+                  </thead>
+                  <tbody id="testSuiteTbody">
+                    <!-- Populated dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- SLIDE-OUT SHOPPING BAG / CART DRAWER       -->
+  <!-- ========================================== -->
+  <div id="cartDrawerBackdrop" class="drawer-backdrop" onclick="toggleCartDrawer()"></div>
+  <aside id="cartDrawer" class="cart-drawer">
+    <div class="drawer-header">
+      <div class="drawer-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        <span>Shopping Bag</span>
+        <span class="badge" id="drawerCartCount">0</span>
+      </div>
+      <button class="close-drawer-btn" onclick="toggleCartDrawer()">&times;</button>
+    </div>
+
+    <!-- Live Rule Engine Calculation Banner -->
+    <div class="cart-rule-engine-banner" id="cartRuleEngineBanner">
+      <div class="rule-engine-header">
+        <span class="engine-indicator pulse"></span>
+        <span class="engine-title">Compiler Engine Pricing Service</span>
+      </div>
+      <div id="cartRuleStatusText" class="rule-status-text">
+        Evaluating active compiled rules...
+      </div>
+    </div>
+
+    <!-- Items list in drawer -->
+    <div class="drawer-items-list" id="drawerCartItems">
+      <!-- Injected dynamically -->
+    </div>
+
+    <!-- Cart Summary & Checkout Footer -->
+    <div class="drawer-footer" id="drawerFooter">
+      <div class="price-breakdown">
+        <div class="price-row">
+          <span>Bag Subtotal</span>
+          <span id="drawerSubtotal">₹0</span>
+        </div>
+        <div class="price-row discount-row" id="drawerDiscountRow" style="display: none;">
+          <span id="drawerDiscountLabel">Rule Discount (15%)</span>
+          <span id="drawerDiscountAmount" class="discount-val">-₹0</span>
+        </div>
+        <div class="price-row">
+          <span>Standard Delivery</span>
+          <span id="drawerDelivery">₹0</span>
+        </div>
+        <div class="price-row total-row">
+          <span>Final Total</span>
+          <span id="drawerFinalTotal" class="total-val">₹0</span>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-block checkout-btn" id="proceedToCheckoutBtn" onclick="openCheckoutModal()">
+        <span>Proceed to Checkout</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ========================================== -->
+  <!-- MODAL: PRODUCT QUICK VIEW & VARIANTS       -->
+  <!-- ========================================== -->
+  <div id="productQuickModal" class="modal-backdrop" onclick="closeProductQuickModal(event)">
+    <div class="modal-card modal-lg" onclick="event.stopPropagation()">
+      <button class="modal-close-btn" onclick="closeProductQuickModal()">&times;</button>
+      <div class="product-modal-grid" id="productModalContent">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: ADMIN ADD / EDIT PRODUCT            -->
+  <!-- ========================================== -->
+  <div id="adminProductModal" class="modal-backdrop" onclick="closeProductModal(event)">
+    <div class="modal-card modal-md" onclick="event.stopPropagation()">
+      <button class="modal-close-btn" onclick="closeProductModal()">&times;</button>
+      <div class="modal-header">
+        <h3 id="adminProductModalTitle">Add New Catalogue Item</h3>
+        <p class="modal-subtitle">Save a new product to the persistent catalogue with category, price & inventory stock.</p>
+      </div>
+      <form id="adminProductForm" onsubmit="handleSaveProduct(event)">
+        <input type="hidden" id="editProductId" value="">
+        <div class="form-group">
+          <label for="prodNameInput">Product Title *</label>
+          <input type="text" id="prodNameInput" required placeholder="e.g., Premium Velvet Tuxedo Blazer">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="prodCategoryInput">Category *</label>
+            <select id="prodCategoryInput" required onchange="handleModalCategoryChange(this.value)">
+              <option value="Fashion">Fashion</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Beauty">Beauty</option>
+              <option value="Home">Home & Living</option>
+              <option value="Footwear">Footwear</option>
+              <option value="Accessories">Accessories</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="prodPriceInput">Price (₹) *</label>
+            <input type="number" id="prodPriceInput" required min="50" step="10" placeholder="2999">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="prodStockInput">Inventory Stock Units *</label>
+            <input type="number" id="prodStockInput" required min="0" value="25">
+          </div>
+          <div class="form-group">
+            <label for="prodRatingInput">Rating (1.0 - 5.0)</label>
+            <input type="number" id="prodRatingInput" min="1" max="5" step="0.1" value="4.8">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Product Photo & Matching Category Presets *</label>
+          <div class="modal-photo-preview-wrap">
+            <img id="modalPhotoPreview" src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=800&q=80" alt="Preview" class="photo-preview-img">
+            <div class="photo-preview-info">
+              <span class="preview-badge" id="previewCatBadge">Category: Fashion</span>
+              <p class="preview-hint">Click any photo below or enter a custom link.</p>
+            </div>
+          </div>
+          <div class="photo-preset-grid" id="modalPhotoPresets">
+            <!-- Dynamically populated thumbnails matching category -->
+          </div>
+          <input type="url" id="prodImageInput" placeholder="Custom image URL (optional)" oninput="handleCustomImageInput(this.value)">
+        </div>
+        <div class="form-group">
+          <label for="prodDescInput">Product Description</label>
+          <textarea id="prodDescInput" rows="3" placeholder="Crafted with premium materials..."></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" onclick="closeProductModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save to Catalogue</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: CHECKOUT SIMULATION                 -->
+  <!-- ========================================== -->
+  <div id="checkoutModal" class="modal-backdrop" onclick="closeCheckoutModal(event)">
+    <div class="modal-card modal-md" onclick="event.stopPropagation()">
+      <button class="modal-close-btn" onclick="closeCheckoutModal()">&times;</button>
+      <div class="modal-header">
+        <h3>Simulated Checkout & Order Placement</h3>
+        <p class="modal-subtitle">Verify your shipping address, compiled rule discount, and finalize order.</p>
+      </div>
+      <form id="checkoutForm" onsubmit="handlePlaceOrder(event)">
+        <div class="checkout-summary-box">
+          <div class="checkout-row">
+            <span>Items Subtotal:</span>
+            <strong id="chkSubtotal">₹0</strong>
+          </div>
+          <div class="checkout-row text-success" id="chkDiscountRow">
+            <span id="chkDiscountLabel">Compiled Rule Discount:</span>
+            <strong id="chkDiscountVal">-₹0</strong>
+          </div>
+          <div class="checkout-row">
+            <span>Delivery:</span>
+            <strong id="chkDelivery">₹0</strong>
+          </div>
+          <div class="checkout-row checkout-total-row">
+            <span>Total Payable:</span>
+            <strong id="chkFinalTotal" class="gradient-text">₹0</strong>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="shipName">Recipient Name *</label>
+          <input type="text" id="shipName" required value="Sneha Dhanavath">
+        </div>
+        <div class="form-group">
+          <label for="shipAddress">Shipping Address *</label>
+          <input type="text" id="shipAddress" required value="Plot 42, Silicon Heights, Jubilee Hills, Hyderabad">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="shipCity">City *</label>
+            <input type="text" id="shipCity" required value="Hyderabad">
+          </div>
+          <div class="form-group">
+            <label for="shipPincode">PIN / Postal Code *</label>
+            <input type="text" id="shipPincode" required value="500033">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Payment Method (Simulated)</label>
+          <div class="payment-methods-grid">
+            <label class="pay-option active">
+              <input type="radio" name="payMethod" value="UPI / GPay" checked>
+              <span>⚡ UPI / Instant Pay</span>
+            </label>
+            <label class="pay-option">
+              <input type="radio" name="payMethod" value="Credit/Debit Card">
+              <span>💳 Credit/Debit Card</span>
+            </label>
+            <label class="pay-option">
+              <input type="radio" name="payMethod" value="Cash on Delivery">
+              <span>💵 Cash on Delivery</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" onclick="closeCheckoutModal()">Back to Bag</button>
+          <button type="submit" class="btn btn-primary" id="confirmOrderBtn">Place Simulated Order (₹0)</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: ORDER CONFIRMATION RECEIPT          -->
+  <!-- ========================================== -->
+  <div id="orderSuccessModal" class="modal-backdrop">
+    <div class="modal-card modal-sm text-center">
+      <div class="success-icon-wrap">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+      </div>
+      <h3>Order Placed Successfully!</h3>
+      <p class="order-id-badge" id="successOrderId">Order #ORD-7890</p>
+      <p class="success-message">Your order has been recorded into the persistent store, and stock inventory was decremented appropriately.</p>
+      <div class="order-receipt-summary" id="orderReceiptDetails"></div>
+      <div class="modal-actions justify-center">
+        <button class="btn btn-primary" onclick="closeOrderSuccessModal(); navigateTo('customer')">View in Customer Orders</button>
+        <button class="btn btn-secondary" onclick="closeOrderSuccessModal(); navigateTo('store')">Back to Catalogue</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: GRAMMAR SPECIFICATION REFERENCE       -->
+  <!-- ========================================== -->
+  <div id="grammarDocsModal" class="modal-backdrop" onclick="closeGrammarDocsModal(event)">
+    <div class="modal-card modal-lg" onclick="event.stopPropagation()">
+      <button class="modal-close-btn" onclick="closeGrammarDocsModal()">&times;</button>
+      <div class="modal-header">
+        <h3>E-Commerce Rule Compiler • EBNF Grammar Reference</h3>
+        <p class="modal-subtitle">Formal language grammar specification for the DSL rule compiler engine.</p>
+      </div>
+      <div class="grammar-modal-body">
+        <h4>Formal Grammar in EBNF</h4>
+        <pre class="ebnf-spec"><code>&lt;Rule&gt;               ::= "RULE" &lt;Identifier&gt; "{" &lt;IfClause&gt; &lt;ThenClause&gt; "}"
+&lt;IfClause&gt;           ::= "IF" &lt;LogicalExpr&gt;
+&lt;ThenClause&gt;         ::= "THEN" &lt;Action&gt;
+&lt;LogicalExpr&gt;        ::= &lt;OrExpr&gt;
+&lt;OrExpr&gt;             ::= &lt;AndExpr&gt; ( "OR" &lt;AndExpr&gt; )*
+&lt;AndExpr&gt;            ::= &lt;ComparisonExpr&gt; ( "AND" &lt;ComparisonExpr&gt; )*
+&lt;ComparisonExpr&gt;     ::= &lt;Identifier&gt; &lt;RelOp&gt; &lt;Literal&gt;
+&lt;RelOp&gt;              ::= "==" | "!=" | "&gt;" | "&gt;=" | "&lt;" | "&lt;="
+&lt;Literal&gt;            ::= &lt;StringLiteral&gt; | &lt;NumberLiteral&gt;
+&lt;Action&gt;             ::= "discount" "=" &lt;NumberLiteral&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="container footer-content">
+      <div class="footer-left">
+        <div class="footer-logo">CompileCart ⚡</div>
+        <p>A rigorous academic integration of Compiler Design principles into modern e-commerce shopping systems.</p>
+      </div>
+      <div class="footer-right">
+        <span>Designed for Sneha Dhanavath • Compiler Design Project</span>
+        <span>Supports Live Server, VS Code & Chrome on Mac</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Core JavaScript Application -->
+  <script src="script.js"></script>
+</body>
+</html>
